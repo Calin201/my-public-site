@@ -73,6 +73,22 @@ export function AquariumStage({
   const pointerActiveRef = useRef(false);
   const lastTargetRef = useRef({ x: 460, y: 210 });
   const pelletCounterRef = useRef(1);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, delayMs: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, delayMs);
+    timersRef.current.push(id);
+  };
+
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach((id) => window.clearTimeout(id));
+      timersRef.current = [];
+    };
+  }, []);
 
   const targetX = useMotionValue(360);
   const targetY = useMotionValue(175);
@@ -167,11 +183,11 @@ export function AquariumStage({
     setPellets((prev) => [...prev.slice(-3), { id, xPct: safeX, yPct: safeY }]);
     setRipples((prev) => [...prev.slice(-4), { id, xPct: safeX, yPct: safeY }]);
 
-    window.setTimeout(() => {
+    scheduleTimer(() => {
       setRipples((prev) => prev.filter((r) => r.id !== id));
     }, 750);
 
-    window.setTimeout(() => {
+    scheduleTimer(() => {
       setPellets((prev) => prev.filter((p) => p.id !== id));
       setEating(true);
       setFeedCount((c) => c + 1);
@@ -184,8 +200,8 @@ export function AquariumStage({
       }));
       setBurstBubbles((prev) => [...prev, ...bubbles]);
 
-      window.setTimeout(() => setEating(false), 480);
-      window.setTimeout(() => {
+      scheduleTimer(() => setEating(false), 480);
+      scheduleTimer(() => {
         const ids = new Set(bubbles.map((b) => b.id));
         setBurstBubbles((prev) => prev.filter((b) => !ids.has(b.id)));
       }, 1100);
@@ -222,8 +238,8 @@ export function AquariumStage({
     }));
     setBurstBubbles((prev) => [...prev, ...bubbles]);
 
-    window.setTimeout(() => setTurbo(false), 1200);
-    window.setTimeout(() => {
+    scheduleTimer(() => setTurbo(false), 1200);
+    scheduleTimer(() => {
       const ids = new Set(bubbles.map((b) => b.id));
       setBurstBubbles((prev) => prev.filter((b) => !ids.has(b.id)));
     }, 1100);
@@ -241,7 +257,7 @@ export function AquariumStage({
           <h1
             id="continut-principal"
             tabIndex={-1}
-            className="mt-3 font-[var(--font-display)] text-3xl font-bold leading-tight text-[var(--ink-main)] focus:outline-none sm:text-5xl"
+            className="mt-3 font-display text-3xl font-bold leading-tight text-[var(--ink-main)] focus:outline-none sm:text-5xl"
           >
             Acvariul lui {STUDENT_CONFIG.numePeste}
           </h1>
@@ -251,7 +267,7 @@ export function AquariumStage({
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="rounded-xl border border-[var(--border-soft)] bg-[var(--bg-card)] px-3.5 py-2 font-[var(--font-mono)] text-xs font-semibold text-[var(--ink-main)]">
+          <div className="rounded-xl border border-[var(--border-soft)] bg-[var(--bg-card)] px-3.5 py-2 font-mono text-xs font-semibold text-[var(--ink-main)]">
             Hrăniri: <span className="text-[var(--accent-coral)]">{feedCount}</span>
           </div>
           <button
@@ -391,16 +407,15 @@ export function AquariumStage({
                 ? { scaleX: facingRight ? 1 : -1, rotate: 0 }
                 : {
                     scaleX: facingRight ? 1 : -1,
-                    rotate: spinCount > 0 && turbo ? [0, 360] : pitchDeg,
+                    rotate: spinCount * 360 + pitchDeg,
                     scale: turbo ? [1, 1.08, 1] : 1,
                   }
             }
             transition={{
               scaleX: { type: 'spring', stiffness: 260, damping: 22 },
-              rotate:
-                spinCount > 0 && turbo
-                  ? { duration: 0.65, ease: 'easeInOut' }
-                  : { type: 'spring', stiffness: 160, damping: 18 },
+              rotate: turbo
+                ? { duration: 0.65, ease: 'easeInOut' }
+                : { type: 'spring', stiffness: 160, damping: 18 },
             }}
           >
             <AnimatedFishSvg

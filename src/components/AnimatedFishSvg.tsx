@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { motion } from 'motion/react';
 import type { FishSpecies } from '../data/fishData';
 
@@ -21,6 +22,7 @@ export function AnimatedFishSvg({
   paused = false,
   className = '',
 }: AnimatedFishSvgProps) {
+  const uid = useId().replace(/:/g, '');
   const tailPeriod = turbo ? 0.32 : 0.85;
   const finPeriod = turbo ? 0.45 : 1.15;
 
@@ -32,13 +34,13 @@ export function AnimatedFishSvg({
       className={`overflow-visible select-none ${className}`}
     >
       <defs>
-        <linearGradient id={`body-${species.id}`} x1="0%" y1="15%" x2="90%" y2="85%">
+        <linearGradient id={`body-${uid}`} x1="0%" y1="15%" x2="90%" y2="85%">
           <stop offset="0%" stopColor={species.bodyHighlight} />
           <stop offset="55%" stopColor={species.bodyBase} />
           <stop offset="100%" stopColor={species.bellyTone} />
         </linearGradient>
 
-        <linearGradient id={`fin-${species.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id={`fin-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor={species.finColor} stopOpacity="0.95" />
           <stop offset="100%" stopColor={species.finAccent} stopOpacity="0.82" />
         </linearGradient>
@@ -64,7 +66,7 @@ export function AnimatedFishSvg({
         {species.tailType === 'veil' ? (
           <path
             d="M98 102 C68 62, 24 44, 14 70 C34 90, 32 102, 12 122 C28 152, 70 138, 98 102 Z"
-            fill={`url(#fin-${species.id})`}
+            fill={`url(#fin-${uid})`}
             stroke={species.stripeOutline}
             strokeOpacity="0.35"
             strokeWidth="1.5"
@@ -72,14 +74,14 @@ export function AnimatedFishSvg({
         ) : species.tailType === 'fan' ? (
           <path
             d="M98 102 C72 74, 34 62, 26 84 C32 100, 32 104, 26 120 C34 142, 72 130, 98 102 Z"
-            fill={`url(#fin-${species.id})`}
+            fill={`url(#fin-${uid})`}
             stroke={species.stripeOutline}
             strokeWidth="2.5"
           />
         ) : (
           <path
             d="M98 102 C72 68, 30 50, 22 68 C48 88, 52 102, 22 136 C30 152, 72 136, 98 102 Z"
-            fill={`url(#fin-${species.id})`}
+            fill={`url(#fin-${uid})`}
             stroke={species.stripeOutline}
             strokeOpacity="0.4"
             strokeWidth="1.5"
@@ -94,7 +96,7 @@ export function AnimatedFishSvg({
             ? 'M120 68 C134 20, 186 16, 206 60 C176 62, 148 64, 120 68 Z'
             : 'M128 66 C142 30, 184 30, 202 62 C178 64, 152 66, 128 66 Z'
         }
-        fill={`url(#fin-${species.id})`}
+        fill={`url(#fin-${uid})`}
         stroke={species.stripeOutline}
         strokeOpacity="0.3"
         strokeWidth="1.5"
@@ -110,7 +112,7 @@ export function AnimatedFishSvg({
             ? 'M132 134 C144 176, 182 180, 198 136 C172 134, 152 134, 132 134 Z'
             : 'M138 134 C148 162, 178 162, 188 136 C168 134, 152 134, 138 134 Z'
         }
-        fill={`url(#fin-${species.id})`}
+        fill={`url(#fin-${uid})`}
         stroke={species.stripeOutline}
         strokeOpacity="0.3"
         strokeWidth="1.5"
@@ -123,7 +125,7 @@ export function AnimatedFishSvg({
       <g>
         <path
           d="M90 102 C112 64, 168 52, 224 66 C262 76, 286 90, 290 104 C286 120, 260 134, 220 140 C166 148, 112 136, 90 102 Z"
-          fill={`url(#body-${species.id})`}
+          fill={`url(#body-${uid})`}
           stroke={species.stripeOutline}
           strokeOpacity="0.45"
           strokeWidth="2"
@@ -205,7 +207,7 @@ export function AnimatedFishSvg({
       {/* Înotătoarea pectorală */}
       <motion.path
         d="M196 110 C180 116, 166 134, 176 144 C190 144, 204 128, 204 114 Z"
-        fill={`url(#fin-${species.id})`}
+        fill={`url(#fin-${uid})`}
         stroke={species.stripeOutline}
         strokeOpacity="0.45"
         strokeWidth="1.5"

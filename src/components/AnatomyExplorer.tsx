@@ -31,7 +31,7 @@ export function AnatomyExplorer({ species, motionPaused }: AnatomyExplorerProps)
             <Compass className="h-4 w-4" aria-hidden="true" />
             Anatomie interactivă
           </div>
-          <h2 className="mt-2 font-[var(--font-display)] text-3xl font-bold text-[var(--ink-main)]">
+          <h2 className="mt-2 font-display text-3xl font-bold text-[var(--ink-main)]">
             Cum funcționează corpul unui {species.name}?
           </h2>
           <p className="mt-2 text-base text-[var(--ink-muted)]">
@@ -60,7 +60,7 @@ export function AnatomyExplorer({ species, motionPaused }: AnatomyExplorerProps)
                       aria-label={`Inspectează ${spot.title}`}
                       onClick={() => setSelectedId(spot.id)}
                       style={{ left: `${spot.xPercent}%`, top: `${spot.yPercent}%` }}
-                      className={`absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 font-[var(--font-mono)] text-xs font-bold shadow-md transition-transform ${
+                      className={`absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 font-mono text-xs font-bold shadow-md transition-transform ${
                         active
                           ? 'scale-115 border-white bg-[var(--accent-coral)] text-white'
                           : 'border-white bg-[var(--accent-reef)] text-white hover:scale-110'
@@ -86,15 +86,15 @@ export function AnatomyExplorer({ species, motionPaused }: AnatomyExplorerProps)
                 className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-page)] p-6"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-lg bg-[var(--accent-reef)]/12 px-2.5 py-1 font-[var(--font-mono)] text-xs font-semibold text-[var(--accent-reef)]">
+                  <span className="rounded-lg bg-[var(--accent-reef)]/12 px-2.5 py-1 font-mono text-xs font-semibold text-[var(--accent-reef)]">
                     {current.role}
                   </span>
-                  <span className="font-[var(--font-mono)] text-xs text-[var(--ink-muted)]">
+                  <span className="font-mono text-xs text-[var(--ink-muted)]">
                     {selectedIndex + 1} / {ANATOMY_HOTSPOTS.length}
                   </span>
                 </div>
 
-                <h3 className="mt-3 font-[var(--font-display)] text-2xl font-bold text-[var(--ink-main)]">
+                <h3 className="mt-3 font-display text-2xl font-bold text-[var(--ink-main)]">
                   {current.title}
                 </h3>
 

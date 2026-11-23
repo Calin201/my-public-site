@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+  --font-display: 'Google Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'Google Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Google Sans Code', ui-monospace, SFMono-Regular, monospace;
+}
+
 :root {
   color-scheme: light;
   --bg-page: #f7f4ee;
@@ -7,12 +13,9 @@
   --ink-main: #13222b;
   --ink-muted: rgba(19, 34, 43, 0.72);
   --accent-reef: #0e7490;
-  --accent-coral: #ea580c;
+  --accent-coral: #c2410c;
   --border-soft: rgba(19, 34, 43, 0.12);
   --border-strong: rgba(19, 34, 43, 0.28);
-  --font-display: 'Google Sans', system-ui, -apple-system, sans-serif;
-  --font-body: 'Google Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Google Sans Code', ui-monospace, monospace;
 }
 
 @layer base {
@@ -66,6 +69,7 @@
     button:not(:disabled),
     a[href] {
       min-block-size: 44px;
+      min-inline-size: 44px;
     }
   }
 }
