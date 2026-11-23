@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --bg-page: #f7f4ee;
+  --bg-card: #ffffff;
+  --ink-main: #13222b;
+  --ink-muted: rgba(19, 34, 43, 0.72);
+  --accent-reef: #0e7490;
+  --accent-coral: #ea580c;
+  --border-soft: rgba(19, 34, 43, 0.12);
+  --border-strong: rgba(19, 34, 43, 0.28);
+  --font-display: 'Google Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'Google Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Google Sans Code', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-page);
+    color: var(--ink-main);
+    font-family: var(--font-body);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg-page);
+    color: var(--ink-main);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+
+  :where(a, button, input, [tabindex]):focus-visible {
+    outline: 3px solid var(--accent-reef);
+    outline-offset: 3px;
+  }
+
+  button:not(:disabled),
+  a[href] {
+    min-block-size: 24px;
+  }
+
+  @media (pointer: coarse) {
+    button:not(:disabled),
+    a[href] {
+      min-block-size: 44px;
+    }
+  }
+}
+
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  background-color: var(--accent-reef);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* CSS decorative underwater motion — gated inside prefers-reduced-motion: no-preference and active motion */
+@keyframes kelp-sway {
+  0%,
+  100% {
+    transform: rotate(-4deg) skewX(-2deg);
+  }
+  50% {
+    transform: rotate(5deg) skewX(2deg);
+  }
+}
+
+@keyframes sunbeam-drift {
+  0%,
+  100% {
+    transform: translateX(-18px) skewX(-14deg);
+    opacity: 0.24;
+  }
+  50% {
+    transform: translateX(22px) skewX(-10deg);
+    opacity: 0.42;
+  }
+}
+
+@keyframes bubble-float {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.85);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.75;
+  }
+  65% {
+    transform: translateY(-220px) translateX(10px) scale(1.05);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translateY(-380px) translateX(-8px) scale(1.15);
+    opacity: 0;
+  }
+}
+
+@keyframes caustic-wave {
+  0%,
+  100% {
+    transform: translateX(-3%) scaleY(1);
+  }
+  50% {
+    transform: translateX(3%) scaleY(1.08);
+  }
+}
+
+.kelp-arm {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .app-root:not(.motion-paused) .kelp-arm {
+    animation: kelp-sway var(--sway-dur, 4.8s) ease-in-out var(--sway-delay, 0s) infinite;
+  }
+
+  .app-root:not(.motion-paused) .sunbeam-ray {
+    animation: sunbeam-drift 7.5s ease-in-out var(--ray-delay, 0s) infinite;
+  }
+
+  .app-root:not(.motion-paused) .ambient-bubble {
+    animation: bubble-float var(--b-dur, 6s) linear var(--b-delay, 0s) infinite;
+  }
+
+  .app-root:not(.motion-paused) .water-caustic {
+    animation: caustic-wave 6.5s ease-in-out infinite;
+  }
+}
+
+@media (forced-colors: active) {
+  :where(a, button, input, [tabindex]):focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
